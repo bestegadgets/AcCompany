@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UpgradeGrid — Next-Gen Gadgets & Lifestyle Essentials</title>
+    <style>
+        :root {
+            --bg-main: #0b0f19;
+            --bg-card: rgba(23, 31, 51, 0.6);
+            --border-card: rgba(255, 255, 255, 0.08);
+            --accent-primary: #8b5cf6;
+            --accent-secondary: #06b6d4;
+            --accent-glow: rgba(139, 92, 246, 0.35);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: var(--font-family);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Subtle Animated Background Gradients */
+        .bg-glow-1 {
+            position: fixed;
+            top: -20%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .bg-glow-2 {
+            position: fixed;
+            bottom: -10%;
+            right: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        header {
+            text-align: center;
+            padding: 5rem 1.5rem 3rem 1.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            color: #c4b5fd;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.35rem 1rem;
+            border-radius: 999px;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        header h1 {
+            font-size: clamp(2.2rem, 5vw, 3.8rem);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        /* Controls Section */
+        .controls-container {
+            max-width: 1100px;
+            margin: 0 auto 3rem auto;
+            padding: 0 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .search-bar {
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-card);
+            padding: 0.85rem 1.25rem;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.25s ease;
+            outline: none;
+        }
+
+        .search-bar input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 20px var(--accent-glow);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .filter-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-card);
+            color: var(--text-muted);
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--accent-primary);
+            color: #fff;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        /* Main Grid */
+        .grid-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem 5rem 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 20px;
+            padding: 1.75rem;
+            backdrop-filter: blur(12px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s ease;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-7px);
+            border-color: rgba(139, 92, 246, 0.4);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 0 20px rgba(139, 92, 246, 0.15);
+        }
+
+        .card-tag {
+            align-self: flex-start;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 0.25rem 0.65rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--accent-secondary);
+        }
+
+        .card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            color: #fff;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .price {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .buy-btn {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, #7c3aed 100%);
+            color: #fff;
+            text-decoration: none;
+            padding: 0.65rem 1.15rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .buy-btn:hover {
+            opacity: 0.9;
+            box-shadow: 0 0 15px var(--accent-glow);
+            transform: scale(1.02);
+        }
+
+        footer {
+            border-top: 1px solid var(--border-card);
+            text-align: center;
+            padding: 3rem 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            background: rgba(11, 15, 25, 0.8);
+        }
+
+        footer a {
+            color: var(--accent-secondary);
+            text-decoration: none;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 640px) {
+            header {
+                padding-top: 3rem;
+            }
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow-1"></div>
+    <div class="bg-glow-2"></div>
+
+    <header>
+        <span class="badge">Trending Essentials 2026</span>
+        <h1>Kuratiertes Design & Smarte Upgrades</h1>
+        <p>Die besten Gadgets für Ästhetik, Produktivität und Biohacking auf Social Media. Handverlesen für deinen Alltag.</p>
+    </header>
+
+    <div class="controls-container">
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Suche nach Gadgets, LED, Sleep..." onkeyup="filterItems()">
+        </div>
+
+        <div class="filter-tabs">
+            <button class="filter-btn active" onclick="setCategory('all', this)">Alle</button>
+            <button class="filter-btn" onclick="setCategory('smarthome', this)">Smart Home & Vibes</button>
+            <button class="filter-btn" onclick="setCategory('wellness', this)">Biohacking & Workout</button>
+        </div>
+    </div>
+
+    <main class="grid-container" id="gadgetGrid">
+        
+        <!-- Produkt 1 -->
+        <article class="card" data-category="smarthome" data-title="smarte led-strips rgb atmosphere ambient lighting">
+            <span class="card-tag">Smart Home</span>
+            <h3>Smarte LED-Lichtleiste</h3>
+            <p>Erzeuge die perfekte Atmosphäre in deinem Zimmer. Mit Musik-Synchro und App-Steuerung per Smartphone.</p>
+            <div class="card-footer">
+                <span class="price">ca. 29,99 €</span>
+                <!-- Füge hier deinen Amazon Affiliate Link ein -->
+                <a href="DEIN_AMAZON_LINK_HIER" target="_blank" class="buy-btn">Bei Amazon ➔</a>
+            </div>
+        </article>
+
+        <!-- Produkt 2 -->
+        <article class="card" data-category="smarthome" data-title="mini beamer projektor heimkino zimmer setup">
+            <span class="card-tag">Smart Home</span>
+            <h3>Kompakter Mini-Beamer</h3>
+            <p>Perfekt für Kinoabende im Schlafzimmer. Projiziert ein messerscharfes Bild direkt an die Zimmerwand.</p>
+            <div class="card-footer">
+                <span class="price">ca. 79,99 €</span>
+                <a href="DEIN_AMAZON_LINK_HIER" target="_blank" class="buy-btn">Bei Amazon ➔</a>
+            </div>
+        </article>
+
+        <!-- Produkt 3 -->
+        <article class="card" data-category="wellness" data-title="massagepistole regeneration muskeln sport biohacking">
+            <span class="card-tag">Biohacking</span>
+            <h3>Mini Massagepistole</h3>
+            <p>Tiefenmuskel-Erholung für unterwegs. Ideal nach harten Workouts oder gegen Verspannungen am Schreibtisch.</p>
+            <div class="card-footer">
+                <span class="price">ca. 49,99 €</span>
+                <a href="DEIN_AMAZON_LINK_HIER" target="_blank" class="buy-btn">Bei Amazon ➔</a>
+            </div>
+        </article>
+
+        <!-- Produkt 4 -->
+        <article class="card" data-category="wellness" data-title="tageslichtwecker sonnenaufgang schlaf wecker routine">
+            <span class="card-tag">Wellness</span>
+            <h3>Tageslicht-Wecker</h3>
+            <p>Wache entspannt durch simuliertes Sonnenlicht auf. Unterstützt deinen natürlichen Schlaf-Wach-Rhythmus.</p>
+            <div class="card-footer">
+                <span class="price">ca. 39,99 €</span>
+                <a href="DEIN_AMAZON_LINK_HIER" target="_blank" class="buy-btn">Bei Amazon ➔</a>
+            </div>
+        </article>
+
+        <!-- Produkt 5 -->
+        <article class="card" data-category="smarthome" data-title="cable management box ordnung kabel desk setup">
+            <span class="card-tag">Smart Home</span>
+            <h3>Kabel-Organizer Box</h3>
+            <p>Schluss mit unordentlichen Mehrfachsteckdosen. Verleiht deinem Schreibtisch sofort einen cleanen Look.</p>
+            <div class="card-footer">
+                <span class="price">ca. 19,99 €</span>
+                <a href="DEIN_AMAZON_LINK_
